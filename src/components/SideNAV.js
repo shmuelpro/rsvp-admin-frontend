@@ -1,39 +1,46 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { BrowserRouter as Router, Switch, Route, Link,useLocation } from "react-router-dom";
+
+
 
 export default function SideNAV(props) {
 
+    var location = useLocation();
+    console.log(location)
+
+    function isActive(link){
+
+        if(location.pathname === link){
+
+            return "is-active";
+        }else{
+           return  ""
+        }
+    }
+ 
+
     return (<aside className="menu">
         <p className="menu-label">
-            General
-</p>
+            Campaigns</p>
         <ul className="menu-list">
-            <li><a>Dashboard</a></li>
-            <li><a>Customers</a></li>
-        </ul>
-        <p className="menu-label">
-            Administration
-</p>
-        <ul className="menu-list">
-            <li><a>Team Settings</a></li>
+            <li><Link className={isActive("/createcampeign")} to="/createcampeign">Create campaign</Link></li>
+           
             <li>
-                <a className="is-active">Manage Your Team</a>
+            <Link  className={isActive("/campaigns")} to="/campaigns">All campaigns</Link>
                 <ul>
                     <li><a>Members</a></li>
                     <li><a>Plugins</a></li>
                     <li><a>Add a member</a></li>
                 </ul>
             </li>
-            <li><a>Invitations</a></li>
-            <li><a>Cloud Storage Environment Settings</a></li>
-            <li><a>Authentication</a></li>
         </ul>
         <p className="menu-label">
-            Transactions
-</p>
+            Guests </p>
         <ul className="menu-list">
-            <li><a>Payments</a></li>
-            <li><a>Transfers</a></li>
-            <li><a>Balance</a></li>
+        <Link className={isActive("/guests")} to="/guests">Guests</Link>
+    
+
         </ul>
+
     </aside>)
 }
