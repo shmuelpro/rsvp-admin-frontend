@@ -1,24 +1,38 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import SideNAV from './components/SideNAV'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="columns">
+        <div className="column is-one-fifth">
+          <SideNAV />
+        </div>
+        <div className="column">
+          <table className="table">
+            <thead>
+              <tr>
+                <th> Email </th>
+                <th> Name </th>
+                <th> Email </th>
+                <th> Email </th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr>
+                
+                <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
+                <td>38</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
     </div>
   );
 }
