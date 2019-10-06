@@ -16,7 +16,7 @@ function App() {
               <tr>
                 <th> Email </th>
                 <th> Name </th>
-                <th> Email </th>
+                <th> Status</th>
                 <th> Email </th>
               </tr>
 
