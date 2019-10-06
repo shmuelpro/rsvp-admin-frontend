@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link,useLocation } from "react-
 export default function SideNAV(props) {
 
     var location = useLocation();
-    console.log(location)
+
 
     function isActive(link){
 
@@ -18,19 +18,23 @@ export default function SideNAV(props) {
         }
     }
  
+    console.log(props.campaigns)
 
     return (<aside className="menu">
         <p className="menu-label">
             Campaigns</p>
         <ul className="menu-list">
-            <li><Link className={isActive("/createcampeign")} to="/createcampeign">Create campaign</Link></li>
+            <li><Link className={isActive("/createcampaign")} to="/createcampaign">Create Campaign</Link></li>
            
             <li>
-            <Link  className={isActive("/campaigns")} to="/campaigns">All campaigns</Link>
+            <Link  className={isActive("/campaigns")} to="/campaigns">All Campaigns</Link>
                 <ul>
-                    <li><a>Members</a></li>
-                    <li><a>Plugins</a></li>
-                    <li><a>Add a member</a></li>
+                    {
+                        props.campaigns.map((campaign)=>{
+                          return   <li key={campaign.id}><Link  className={isActive("/campaign/"+campaign.id)} to={"/campaign/"+campaign.id}>{campaign.name}</Link></li>
+                        })
+                    }                 
+                  
                 </ul>
             </li>
         </ul>

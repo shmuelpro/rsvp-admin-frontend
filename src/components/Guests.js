@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function DisplayGuests(props) {
+export default function Guests(props) {
 
 
 
@@ -23,7 +23,7 @@ export default function DisplayGuests(props) {
     return (
 
         <React.Fragment>
-            <h1 className="is-size-1">Campaign Name</h1>
+        
             <div>Total Count {props.guests.length}</div>
             <table className="table">
                 <thead>
@@ -54,6 +54,6 @@ export default function DisplayGuests(props) {
     )
 }
 
-DisplayGuests.defaultProps = {
+Guests.defaultProps = {
     guests: []
 }

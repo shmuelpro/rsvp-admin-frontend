@@ -2,8 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import SideNAV from './components/SideNAV'
-import DisplayGuests from './components/DisplayGuests';
+import Guests from './components/Guests';
 import Campaigns from './components/Campaigns';
+import Campaign from './components/Campaign';
+import CampaignEditor from './components/CampaignEditor'
 import Store from './Store'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -11,24 +13,47 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 function App() {
-  const storeContainer = useRef(new Store("admin", { inJSON: true }));
+  const guestsStore = useRef(new Store("guests"));
+  const campaignsStore = useRef(new Store("campaigns", { inJSON: true,JSONTable:"campaigns" }));
   const [guests, setGuests] = useState([]);
+  const [campaigns, setCampaigns] = useState([]);
 
   useEffect(() => {
 
-    storeContainer.current.Init({ load: "/" })
+    campaignsStore.current.Init({ load: "/campaigns",create:"/campaigns" ,update:"/campaigns" })
+    guestsStore.current.Init({ load: "/guests" })
 
-    storeContainer.current.load().then((data) => {
+    campaignsStore.current.load().then(() => {
+      var data = campaignsStore.current.getData();
 
-      setGuests(data.guests);
-
-
+      setCampaigns(data);
     })
 
 
-
+    guestsStore.current.load().then(()=>{
+      var data = guestsStore.current.getData();
+      console.log("data")
+      console.log(data)
+      setGuests(data)
+    })
   }, [])
 
+
+  function getCampaign(id) {
+    console.log(id)
+    return campaignsStore.current.get(id)
+  }
+
+  function editCampaign(data){
+    if(data.id){
+      campaignsStore.current.update(data);
+    }else{
+      campaignsStore.current.create(data).then((da)=>{
+        console.log(da)
+
+      })
+    }
+  }
 
 
   return (
@@ -36,16 +61,28 @@ function App() {
       <Router>
         <div className="columns">
           <div className="column is-one-fifth">
-            <SideNAV />
+            <SideNAV campaigns={campaigns} />
           </div>
           <div className="column">
             <Switch>
+              <Route path="/createcampaign">
+              <CampaignEditor edit={editCampaign.bind(this)}/>
+              </Route>
               <Route path="/campaigns">
-                <Campaigns />
+                <Campaigns campaigns={campaigns} />
               </Route>
               <Route path="/guests">
-                <DisplayGuests guests={guests} />
+                <Guests guests={guests} />
               </Route>
+              <Route path="/campaign/:campaign" component={(props) => {
+                
+                var campaign = getCampaign(props.match.params.campaign);
+                console.log(campaign)
+                return <Campaign {...props} {...campaign} />
+
+              }} />
+
+
             </Switch>
 
           </div>

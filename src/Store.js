@@ -14,8 +14,6 @@ export default class Store extends Communicator {
 
     }
 
-
-
     load() {
         console.log("loading for " + this.name)
         return new Promise((resolve, reject) => {
@@ -24,27 +22,34 @@ export default class Store extends Communicator {
             }
 
 
-            if (this.commands.load) {
+            if (this.commands.load && !this.settings.inJSON) {
 
                 this.loadRemote().then((response) => {
 
+                    if (response) {
+                        this.data = response.data;
 
+                        if (!Array.isArray(this.data)) {
+                            this.data = [];
+                        }
+                        resolve()
+                    } else (
+                        reject("remote error")
+                    )
 
-                    this.data = response.data;
-
-                    if (!Array.isArray(this.data)) {
-                        this.data = [];
-                    }
-                    resolve()
 
                 }).catch(function (error) {
                     console.log(error);
                 });
             }
 
-            if(this.settings.inJSON){
+            if (this.settings.inJSON) {
+                this.data = window.data[this.settings.JSONTable];
 
-                resolve(window.data)
+                if (!Array.isArray(this.data)) {
+                    this.data = [];
+                }
+                resolve()
 
             }
         })
@@ -60,7 +65,7 @@ export default class Store extends Communicator {
 
         return this.data.find((datum) => {
 
-            return parseInt(datum.ID, 10) == parseInt(id, 10);
+            return parseInt(datum.id, 10) == parseInt(id, 10);
         })
     }
 
@@ -91,10 +96,10 @@ export default class Store extends Communicator {
 
 
         var entry = this.data[index];
-        console.log(entry);
+
         Object.assign(entry, data);
         this.data[index] = entry;
-        console.log(entry)
+
 
         return this.updateRemote(data);
     }

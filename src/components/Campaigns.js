@@ -4,13 +4,13 @@ import React from 'react'
 export default function Campaigns(props) {
 
 
-   
+
 
 
     return (
 
         <React.Fragment>
-                     <table className="table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th> ID </th>
@@ -24,12 +24,12 @@ export default function Campaigns(props) {
                 <tbody>
 
                     {props.campaigns.map((campaign, i) => {
-                        return (<tr>
-                            <td>{campaign.id}</td>                       
-                            <td>{campaign.name}</td>                            
+                        return (<tr key={campaign.id}>
+                            <td>{campaign.id}</td>
+                            <td>{campaign.name}</td>
                             <td >{campaign.date}</td>
                             <td >{campaign.state}</td>
-                            
+
                         </tr>)
                     })}
                 </tbody>
@@ -40,6 +40,6 @@ export default function Campaigns(props) {
 
 }
 
-Campaigns.defaultProps ={
-    campaigns:[]
+Campaigns.defaultProps = {
+    campaigns: []
 }
