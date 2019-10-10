@@ -35,6 +35,11 @@ export default function CampaignEditor(props) {
             </div>
 
         </div>
+        <div class="is-hidden notification is-success">
+            <button class="delete"></button>
+            {props.notification}
+
+        </div>
     </div>)
 }
 

@@ -1,7 +1,8 @@
 import React from 'react'
-
+import {numberSortAscending} from './Sort';
 
 export default function Campaigns(props) {
+
 
 
 
@@ -17,6 +18,7 @@ export default function Campaigns(props) {
                         <th> Name </th>
                         <th>Date Created</th>
                         <th> Status </th>
+                        <th> Responses </th>
 
                     </tr>
 
@@ -29,6 +31,7 @@ export default function Campaigns(props) {
                             <td>{campaign.name}</td>
                             <td >{campaign.date}</td>
                             <td >{campaign.state}</td>
+                            <td >{campaign.guests.length}</td>
 
                         </tr>)
                     })}

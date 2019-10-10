@@ -27,7 +27,8 @@ export default class Store extends Communicator {
                 this.loadRemote().then((response) => {
 
                     if (response) {
-                        this.data = response.data;
+                        this.data = response.data ||{};
+                        this.remoteLoaded = true;
 
                         if (!Array.isArray(this.data)) {
                             this.data = [];
@@ -44,8 +45,15 @@ export default class Store extends Communicator {
             }
 
             if (this.settings.inJSON) {
-                this.data = window.data[this.settings.JSONTable];
-
+               
+                try {
+                    this.data = window.data[this.settings.JSONTable];
+                  }
+                  catch(error) {
+                    console.error(error);
+                  
+                  }
+                  
                 if (!Array.isArray(this.data)) {
                     this.data = [];
                 }
@@ -84,7 +92,10 @@ export default class Store extends Communicator {
 
         return this.createRemote(data).then((response) => {
 
-            this.data.unshift(response.data)
+            if(response){
+                this.data.unshift(response.data)
+            }
+            
             return response;
         })
     }

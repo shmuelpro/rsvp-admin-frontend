@@ -6,6 +6,7 @@ import Guests from './components/Guests';
 import Campaigns from './components/Campaigns';
 import Campaign from './components/Campaign';
 import CampaignEditor from './components/CampaignEditor'
+import {createCampaignURL} from './helpers'
 import Store from './Store'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -14,9 +15,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
   const guestsStore = useRef(new Store("guests"));
-  const campaignsStore = useRef(new Store("campaigns", { inJSON: true,JSONTable:"campaigns" }));
+  const campaignsStore = useRef(new Store("campaigns"));
   const [guests, setGuests] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
+  const [createButtonText, setCreateButtonText] = useState("Create");
+  const [createNotification, setCreateNotification] = useState("Create");
 
   useEffect(() => {
 
@@ -39,18 +42,26 @@ function App() {
   }, [])
 
 
+
+ 
+
   function getCampaign(id) {
     console.log(id)
     return campaignsStore.current.get(id)
   }
 
   function editCampaign(data){
+
+    setCreateButtonText("Working")
+
     if(data.id){
       campaignsStore.current.update(data);
     }else{
       campaignsStore.current.create(data).then((da)=>{
-        console.log(da)
-
+        console.log()
+        setCreateButtonText("Creation Complete")
+        setCreateNotification("Your Campaign was created successfully. Your URL is "+createCampaignURL(da))
+        
       })
     }
   }
@@ -65,8 +76,14 @@ function App() {
           </div>
           <div className="column">
             <Switch>
+            <Route exact path="/">
+              <div>
+                Welcome to RSVP Admin. Select a menu option
+              </div>
+              
+              </Route>
               <Route path="/createcampaign">
-              <CampaignEditor edit={editCampaign.bind(this)}/>
+              <CampaignEditor notification={createNotification} buttonText={createButtonText} edit={editCampaign.bind(this)}/>
               </Route>
               <Route path="/campaigns">
                 <Campaigns campaigns={campaigns} />
