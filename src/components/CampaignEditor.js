@@ -8,7 +8,7 @@ export default function CampaignEditor(props) {
 
 
 
-    function aggrigateCampaign() {
+    function aggregateCampaign() {
 
 
         props.edit({ name: inputName, date: inputDate, description: inputDescription })
@@ -22,6 +22,26 @@ export default function CampaignEditor(props) {
             <div className="column">Name:  <input onChange={(e) => { setInputName(e.target.value) }} value={inputName} className="input is-medium" type="text" ></input></div>
             <div className="column">Date:  <input onChange={(e) => { setInputDate(e.target.value) }} className="input is-medium" type="text" ></input></div>
         </div>
+        <div className="columns">
+            <div className="column has-background-success has-text-white">
+                <label className="checkbox ">
+                    <input type="checkbox" />
+                    Accept
+                </label>
+            </div>
+            <div className="column has-background-warning">
+                <label className="checkbox ">
+                    <input type="checkbox" />
+                    Maybe
+                </label>
+            </div>
+            <div className="column has-background-danger has-text-white">
+                <label className="checkbox">
+                    <input type="checkbox" />
+                    Decline
+                </label>
+            </div>
+        </div>
         <div>
             <div className="columns">
                 <div className="column">
@@ -29,10 +49,20 @@ export default function CampaignEditor(props) {
                 </div>
             </div>
             <div className="columns">
+
+            {props.state === 'EDITING' && (
                 <div className="column">
-                    <button onClick={aggrigateCampaign} className="button is-success">Create</button>
+                    <button onClick={aggregateCampaign} className="button is-success">Save</button>
                 </div>
+            )}
+            {props.state === 'New' && (
+                <div className="column">
+                    <button onClick={aggregateCampaign} className="button is-success">Create</button>
+                </div>
+            )}
             </div>
+               
+            
 
         </div>
         <div class="is-hidden notification is-success">

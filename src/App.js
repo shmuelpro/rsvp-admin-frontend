@@ -15,7 +15,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
   const guestsStore = useRef(new Store("guests"));
-  const campaignsStore = useRef(new Store("campaigns"));
+  const campaignsStore = useRef(new Store("campaigns", { inJSON: true,JSONTable:"campaigns" }));
   const [guests, setGuests] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [createButtonText, setCreateButtonText] = useState("Create");
@@ -83,8 +83,15 @@ function App() {
               
               </Route>
               <Route path="/createcampaign">
-              <CampaignEditor notification={createNotification} buttonText={createButtonText} edit={editCampaign.bind(this)}/>
+              <CampaignEditor notification={createNotification} state="NEW" buttonText={createButtonText} edit={editCampaign.bind(this)}/>
               </Route>
+              <Route path="/campaign/:campaign" component={(props) => {
+                
+                var campaign = getCampaign(props.match.params.campaign);
+                console.log(campaign)
+                return   <CampaignEditor {...props} {...campaign} notification={createNotification} state="EDITING" buttonText={createButtonText} edit={editCampaign.bind(this)}/>
+
+              }} />
               <Route path="/campaigns">
                 <Campaigns campaigns={campaigns} />
               </Route>

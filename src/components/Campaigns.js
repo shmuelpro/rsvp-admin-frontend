@@ -19,6 +19,7 @@ export default function Campaigns(props) {
                         <th>Date Created</th>
                         <th> Status </th>
                         <th> Responses </th>
+                        <th>  </th>
 
                     </tr>
 
@@ -32,6 +33,7 @@ export default function Campaigns(props) {
                             <td >{campaign.date}</td>
                             <td >{campaign.state}</td>
                             <td >{campaign.guests.length}</td>
+                            <td >   <button onClick={()=>{console.log("da faq")}} className="button is-success">Edit</button></td>
 
                         </tr>)
                     })}

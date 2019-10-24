@@ -106,7 +106,7 @@ export default function Campaign(props) {
                         <th> ID </th>
                         <th> Email </th>
                         <th> Name </th>
-                        <th onClick={() => { sort("state") }}>  Status</th>
+                        <th style={{cursor:"pointer"}} onClick={() => { sort("state") }}>  Status</th>
                         <th>Responded On</th>
 
                     </tr>
