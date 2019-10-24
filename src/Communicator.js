@@ -43,8 +43,7 @@ export default class Communicator {
         if (!this.commands.create) {
             throw "Create command not implemented"
         }
-        console.log(this.commands.create)
-        console.log(data)
+      
 
         return axios.post(this.commands.create, { ... data }).catch((error) => {
             console.log(error)
@@ -78,9 +77,8 @@ export default class Communicator {
         if (!this.commands.update) {
             throw "Update command not implemented"
         }
-        console.log(data);
-
-        return axios.put(this.commands.update+"/"+data.id, {...data }).catch((error) => {
+        
+        return axios.post(this.commands.update+"/"+data.id, {...data }).catch((error) => {
             console.log(error)
         });
 
