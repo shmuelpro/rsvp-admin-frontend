@@ -51,8 +51,8 @@ function App() {
 
   function editCampaign(data) {
 
-    
-   
+
+
 
 
     if (data.id) {
@@ -95,9 +95,14 @@ function App() {
                 return <CampaignEditor {...props} {...campaign} notification={notification} state="EDITING" edit={editCampaign.bind(this)} />
 
               }} />
-              <Route path="/campaigns">
-                <Campaigns campaigns={campaigns} />
-              </Route>
+
+              <Route path="/campaigns" component={(props) => {
+
+         
+                return <Campaigns {...props}  campaigns={campaigns} />
+
+              }} />
+        
               <Route path="/guests">
                 <Guests guests={guests} />
               </Route>

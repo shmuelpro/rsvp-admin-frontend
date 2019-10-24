@@ -1,9 +1,12 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {numberSortAscending} from './Sort';
 
 export default function Campaigns(props) {
 
 
+    useEffect(()=>{
+console.log(props)
+    },[])
 
 
 
@@ -33,7 +36,7 @@ export default function Campaigns(props) {
                             <td >{campaign.date}</td>
                             <td >{campaign.state}</td>
                             <td >{campaign.guests.length}</td>
-                            <td >   <button onClick={()=>{window.location = "/createcampaign/"+campaign.id}} className="button is-success">Edit</button></td>
+                            <td >   <button onClick={()=>{props.history.push("/createcampaign/"+campaign.id)}} className="button is-success">Edit</button></td>
 
                         </tr>)
                     })}
