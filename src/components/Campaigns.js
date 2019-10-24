@@ -33,7 +33,7 @@ export default function Campaigns(props) {
                             <td >{campaign.date}</td>
                             <td >{campaign.state}</td>
                             <td >{campaign.guests.length}</td>
-                            <td >   <button onClick={()=>{console.log("da faq")}} className="button is-success">Edit</button></td>
+                            <td >   <button onClick={()=>{window.location = "/createcampaign/"+campaign.id}} className="button is-success">Edit</button></td>
 
                         </tr>)
                     })}
