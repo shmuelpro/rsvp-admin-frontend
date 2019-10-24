@@ -2,16 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 
 export default function CampaignEditor(props) {
 
-    const [inputName, setInputName] = useState(props.name);
-    const [inputDate, setInputDate] = useState(props.date);
-    const [inputDescription, setInputDescription] = useState(props.description);
+    const [inputName, setInputName] = useState(props.campaign.name);
+    const [inputDate, setInputDate] = useState(props.campaign.date);
+    const [inputDescription, setInputDescription] = useState(props.campaign.description);
     const [buttonText, setButtonText] = useState();
     const [displayNotification,setDisplayNotification] = useState(false)
 
 
-    const buttonAccept = useRef();
-    const buttonMaybe = useRef();
-    const buttonDecline = useRef();
+    const [buttonAccept,setButtonAccept] = useState(false);
+    const [buttonMaybe,setButtonMaybe] = useState(false);
+    const [buttonDecline,setButtonDecline] = useState(false);
 
     useEffect(() => {
 
@@ -21,7 +21,20 @@ export default function CampaignEditor(props) {
         else {
             setButtonText("Update")
         }
-        console.log(props)
+
+        var buttonNum = props.campaign.buttonsNum;
+        if(!buttonNum ){
+            buttonNum= 0;
+          }
+          var accept = buttonNum & 1;
+          var maybe = buttonNum & 2;
+          var decline = buttonNum & 4;
+
+          setButtonAccept(accept > 0);
+          setButtonMaybe(maybe > 0);
+          setButtonDecline(decline > 0);
+      
+       
 
         setDisplayNotification(false)
 
@@ -31,31 +44,34 @@ export default function CampaignEditor(props) {
     function prepareButtons() {
 
         var value = 0;
-        value += buttonAccept.current.checked ? 1 : 0;
-        value += buttonMaybe.current.checked ? 2 : 0;
-        value += buttonDecline.current.checked ? 4 : 0;
+        value += buttonAccept ? 1 : 0;
+        value += buttonMaybe ? 2 : 0;
+        value += buttonDecline ? 4 : 0;
         return value;
     }
 
     useEffect(() => {
-        console.log(props.notification)
+        
         if(props.notification !== ""){
             setDisplayNotification(true)
         }
        
 
-        setTimeout(() => {
+       const to =  setTimeout(() => {
             setDisplayNotification(false)
         }, 10000)
 
+        return (()=>{clearTimeout(to)})
     }, [props.notification])
 
     function aggregateCampaign() {
 
 
         setButtonText("Working...")
+        var campaign = {...props.campaign};
+        Object.assign(campaign,{ name: inputName, date: inputDate, description: inputDescription, buttonsNum: prepareButtons() })
 
-        props.edit({ name: inputName, date: inputDate, description: inputDescription, buttonsNum: prepareButtons() })
+        props.edit(campaign)
 
 
     }
@@ -75,19 +91,19 @@ export default function CampaignEditor(props) {
         <div className="columns">
             <div className="column has-background-success has-text-white">
                 <label className="checkbox ">
-                    <input ref={buttonAccept} type="checkbox" />
+                    <input onChange={(e) => { setButtonAccept(e.target.checked) }} checked={buttonAccept} type="checkbox" />
                     Accept
                 </label>
             </div>
             <div className="column has-background-warning">
                 <label className="checkbox ">
-                    <input ref={buttonMaybe} type="checkbox" />
+                    <input onChange={(e) => { setButtonMaybe(e.target.checked) }} checked={buttonMaybe}  type="checkbox" />
                     Maybe
                 </label>
             </div>
             <div className="column has-background-danger has-text-white">
                 <label className="checkbox">
-                    <input ref={buttonDecline} type="checkbox" />
+                    <input onChange={(e) => { setButtonDecline(e.target.checked) }} checked={buttonDecline}  type="checkbox" />
                     Decline
                 </label>
             </div>

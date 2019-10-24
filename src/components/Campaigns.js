@@ -4,10 +4,6 @@ import {numberSortAscending} from './Sort';
 export default function Campaigns(props) {
 
 
-    useEffect(()=>{
-console.log(props)
-    },[])
-
 
 
 
@@ -23,12 +19,9 @@ console.log(props)
                         <th> Status </th>
                         <th> Responses </th>
                         <th>  </th>
-
                     </tr>
-
                 </thead>
                 <tbody>
-
                     {props.campaigns.map((campaign, i) => {
                         return (<tr key={campaign.id}>
                             <td>{campaign.id}</td>

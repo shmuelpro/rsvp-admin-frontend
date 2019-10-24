@@ -111,7 +111,7 @@ export default class Store extends Communicator {
         Object.assign(entry, data);
         this.data[index] = entry;
 
-
+      
         return this.updateRemote(data);
     }
 

@@ -85,14 +85,14 @@ function App() {
 
               </Route>
               <Route exact path="/createcampaign">
-                <CampaignEditor notification={notification} state="NEW" edit={editCampaign.bind(this)} />
+                <CampaignEditor notification={notification} campaign={{}} state="NEW" edit={editCampaign.bind(this)} />
               </Route>
               <Route path="/createcampaign/:campaign" component={(props) => {
 
                 var campaign = getCampaign(props.match.params.campaign);
                 console.log("Creating cam  p")
                 console.log(campaign)
-                return <CampaignEditor {...props} {...campaign} notification={notification} state="EDITING" edit={editCampaign.bind(this)} />
+                return <CampaignEditor {...props} campaign={{...campaign}} notification={notification} state="EDITING" edit={editCampaign.bind(this)} />
 
               }} />
 
