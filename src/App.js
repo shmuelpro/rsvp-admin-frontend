@@ -56,16 +56,23 @@ function App() {
 
 
     if (data.id) {
-      campaignsStore.current.update(data);
+      campaignsStore.current.update(data).then((da) => {
+        console.log(da)
+        setNotification("Your Campaign was updated successfully. Your URL is " + createCampaignURL(da.data))
+      })
     } else {
       campaignsStore.current.create(data).then((da) => {
 
-        setNotification("Your Campaign was created successfully. Your URL is " + createCampaignURL(da))
+        setNotification("Your Campaign was created successfully. Your URL is " + createCampaignURL(da.data))
 
       }).catch((error) => {
         setNotification("Failed");
       })
     }
+  }
+
+  function clearNotification() {
+    setNotification("");
   }
 
 
@@ -85,24 +92,24 @@ function App() {
 
               </Route>
               <Route exact path="/createcampaign">
-                <CampaignEditor notification={notification} campaign={{}} state="NEW" edit={editCampaign.bind(this)} />
+                <CampaignEditor notification={notification} clearNotification={clearNotification} campaign={{}} state="NEW" edit={editCampaign.bind(this)} />
               </Route>
               <Route path="/createcampaign/:campaign" component={(props) => {
 
                 var campaign = getCampaign(props.match.params.campaign);
-                console.log("Creating cam  p")
-                console.log(campaign)
-                return <CampaignEditor {...props} campaign={{...campaign}} notification={notification} state="EDITING" edit={editCampaign.bind(this)} />
+
+
+                return <CampaignEditor clearNotification={clearNotification} {...props} campaign={{ ...campaign }} notification={notification} state="EDITING" edit={editCampaign.bind(this)} />
 
               }} />
 
               <Route path="/campaigns" component={(props) => {
 
-         
-                return <Campaigns {...props}  campaigns={campaigns} />
+
+                return <Campaigns {...props} campaigns={campaigns} />
 
               }} />
-        
+
               <Route path="/guests">
                 <Guests guests={guests} />
               </Route>

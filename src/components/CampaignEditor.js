@@ -5,7 +5,8 @@ export default function CampaignEditor(props) {
     const [inputName, setInputName] = useState(props.campaign.name);
     const [inputDate, setInputDate] = useState(props.campaign.date);
     const [inputDescription, setInputDescription] = useState(props.campaign.description);
-    const [buttonText, setButtonText] = useState();
+    const [buttonText, setButtonText] = useState("Loading");
+    const [title, setTitle] = useState("Loading");
     const [displayNotification,setDisplayNotification] = useState(false)
 
 
@@ -15,11 +16,14 @@ export default function CampaignEditor(props) {
 
     useEffect(() => {
 
+
         if (props.state === "NEW") {
             setButtonText("Create")
+            setTitle("Create Campaign")
         }
         else {
             setButtonText("Update")
+            setTitle("Edit Campaign")
         }
 
         var buttonNum = props.campaign.buttonsNum;
@@ -54,11 +58,13 @@ export default function CampaignEditor(props) {
         
         if(props.notification !== ""){
             setDisplayNotification(true)
+        }else{
+            setDisplayNotification(false)
         }
        
 
        const to =  setTimeout(() => {
-            setDisplayNotification(false)
+          props.clearNotification();
         }, 10000)
 
         return (()=>{clearTimeout(to)})
@@ -78,9 +84,9 @@ export default function CampaignEditor(props) {
 
 
     return (<div>
-        <h1 className="is-size-1">Create Campaign</h1>
+        <h1 className="is-size-1">{title}</h1>
         <div className={`floating-notification notification is-success ${displayNotification?"":"is-hidden"}`}>
-            <button className="delete" onClick={()=>{setDisplayNotification(false)}}></button>
+            <button className="delete" onClick={()=>{props.clearNotification()}}></button>
             {props.notification}
 
         </div>
